@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 exports.signup = async (req, res) => {
   try {
+    console.log("Body", req.body);
     if (!req.body.name) {
       return res.status(400).json({
         error: "Name is required",
