@@ -3,8 +3,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 exports.signup = async (req, res) => {
+  console.log("Body", req.body);
   try {
-    console.log("Body", req.body);
     if (!req.body.name) {
       return res.status(400).json({
         error: "Name is required",
@@ -44,6 +44,11 @@ exports.signin = async (req, res) => {
       });
     }
     const user = await models.user.findOne({ email: req.body.email });
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
     const is_password_valid = bcrypt.compareSync(
       req.body.password,
       user.password
